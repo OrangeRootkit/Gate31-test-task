@@ -82,6 +82,7 @@ button.addEventListener('click', (e)=> {
     save()
     console.log(history)
     console.log(history.location)
+    console.log(window.location)
 });
 
 input.addEventListener('input',()=> {
@@ -95,4 +96,6 @@ input.addEventListener('input',()=> {
 renderGrid(newData);
 
 load();
+
+console.log('end')
 
