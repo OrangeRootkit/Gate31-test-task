@@ -1,0 +1,79 @@
+@charset "UTF-8";
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 16px;
+  background-image: linear-gradient(62deg, #FBAB7E 0%, #F7CE68 100%);
+}
+
+h1 {
+  font-size: 48px;
+  text-align: center;
+  margin: 20px 0 40px;
+}
+
+.numbers {
+  text-align: center;
+  font-size: 28px;
+}
+
+.container {
+  margin: 0 auto;
+  width: 960px;
+}
+
+.search-wrapper {
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 10px;
+}
+.search-wrapper .input {
+  width: 300px;
+  outline: none;
+  padding: 10px;
+  outline: 0;
+  border: 0;
+}
+.search-wrapper .button {
+  padding: 10px;
+  outline: 0;
+  border: 0;
+  width: 300px;
+  background-color: #577486;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 16px;
+}
+.search-wrapper .button:hover {
+  cursor: pointer;
+  background-color: #9ec7dd;
+}
+
+.grid {
+  margin: 0 auto;
+  margin-top: 40px;
+  display: grid;
+  grid-template-columns: 300px 300px 300px;
+  grid-template-rows: repeat(2, auto);
+  gap: 20px;
+}
+.grid .card {
+  min-height: 250px;
+  padding: 10px;
+  background-color: #9ec7dd;
+  margin-bottom: 10px;
+}
+.grid .card-toggle {
+  background-color: red;
+}
+.grid .card__header {
+  white-space: nowrap; /* Текст не переносится */
+  overflow: hidden; /* Обрезаем всё за пределами блока */
+  text-overflow: ellipsis; /* Добавляем многоточие */
+  margin-bottom: 10px;
+}/*# sourceMappingURL=style.css.map */
