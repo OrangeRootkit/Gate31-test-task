@@ -17,7 +17,7 @@ let newData = [...data];
 for (let el of newData) {
     el.checkbox = '';
 }
-console.log('новая', newData);
+console.log('new array', newData);
 
 
 const createCard = (obj) => {
@@ -56,18 +56,23 @@ const save = () => {
 }
 
 const load = () => {
+    
     if(localStorage.length != 0) {
+    console.log('storage start')
+    console.log(localStorage.length)
     newData = JSON.parse(localStorage.getItem('key'));
     renderGrid(newData);
     countEl(newData);
-    }
+    } else {
+    console.log('start without storage')
     renderGrid(newData);
+    }
 }
-console.log('local', localStorage);
+
 load()
 
 save();
-
+console.log('local', localStorage);
 
 grid.addEventListener('click', (e)=> {
     let elem = e.target;
