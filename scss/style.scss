@@ -19,7 +19,6 @@ h1 {
 
 .numbers {
     text-align: center;
-    // background-color: #9ec7dd;
     font-size: 28px;
 }
 
@@ -41,6 +40,9 @@ h1 {
         padding: 10px;
         outline: 0;
         border: 0;
+        &:hover {
+            background-color: #9ec7dd;
+        }
     }
 
     .button {
@@ -74,15 +76,10 @@ h1 {
         margin-bottom: 10px;
     }
 
-    .card-toggle {
-        background-color: red;
-        
-    }
-
     .card__header {
-        white-space: nowrap; /* Текст не переносится */
-        overflow: hidden; /* Обрезаем всё за пределами блока */
-        text-overflow: ellipsis; /* Добавляем многоточие */
+        white-space: nowrap; 
+        overflow: hidden; 
+        text-overflow: ellipsis;
         margin-bottom: 10px;
     }
 

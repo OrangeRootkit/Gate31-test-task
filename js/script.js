@@ -5,7 +5,6 @@ const input = document.querySelector('.input');
 const numders = document.querySelector('.numbers');
 const button = document.querySelector('.button');
 
-
 const getData = async () => {
     const resp = await (fetch(URL))
     const data = await(resp.json());
@@ -13,21 +12,13 @@ const getData = async () => {
 };
 
 const data = await getData();
-let newData = data.map((el)=>el)
+
+let newData = [...data];
 for (let el of newData) {
     el.checkbox = '';
 }
+console.log('новая', newData);
 
-const save = () => {
-    localStorage.clear();
-    localStorage.setItem('key', JSON.stringify(newData));
-}
-
-const load = () => {
-    newData = JSON.parse(localStorage.getItem('key'));
-    renderGrid(newData);
-    countEl(newData);
-}
 
 const createCard = (obj) => {
     const card = document.createElement('div');
@@ -44,17 +35,39 @@ const createCard = (obj) => {
     return card
 }
 
-const renderGrid = (newData) => {
+
+const renderGrid = () => {
     grid.innerHTML='';
-    newData.forEach(obj => grid.append(createCard(obj)));
+    for (let el of newData) {
+        grid.append(createCard(el));
+    }
 }
+// renderGrid(newData);
 
-
-const countEl = (counData) => {
-    let counter = counData.filter(el=>el.checkbox == "checked").length
+const countEl = () => {
+    let counter = newData.filter(el=>el.checkbox == "checked").length
     numders.innerText = `numbs = ${counter}`
     return counter;
 }
+
+const save = () => {
+    localStorage.clear();
+    localStorage.setItem('key', JSON.stringify(newData));
+}
+
+const load = () => {
+    if(localStorage.length != 0) {
+    newData = JSON.parse(localStorage.getItem('key'));
+    renderGrid(newData);
+    countEl(newData);
+    }
+    renderGrid(newData);
+}
+console.log('local', localStorage);
+load()
+
+save();
+
 
 grid.addEventListener('click', (e)=> {
     let elem = e.target;
@@ -92,10 +105,6 @@ input.addEventListener('input',()=> {
     }
     
 } )
-
-renderGrid(newData);
-
-load();
 
 console.log('end')
 

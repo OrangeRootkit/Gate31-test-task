@@ -1,4 +1,3 @@
-@charset "UTF-8";
 * {
   margin: 0;
   padding: 0;
@@ -40,6 +39,9 @@ h1 {
   outline: 0;
   border: 0;
 }
+.search-wrapper .input:hover {
+  background-color: #9ec7dd;
+}
 .search-wrapper .button {
   padding: 10px;
   outline: 0;
@@ -68,12 +70,9 @@ h1 {
   background-color: #9ec7dd;
   margin-bottom: 10px;
 }
-.grid .card-toggle {
-  background-color: red;
-}
 .grid .card__header {
-  white-space: nowrap; /* Текст не переносится */
-  overflow: hidden; /* Обрезаем всё за пределами блока */
-  text-overflow: ellipsis; /* Добавляем многоточие */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
   margin-bottom: 10px;
 }/*# sourceMappingURL=style.css.map */
