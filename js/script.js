@@ -42,7 +42,8 @@ const renderGrid = () => {
         grid.append(createCard(el));
     }
 }
-// renderGrid(newData);
+
+console.log(renderGrid());
 
 const countEl = () => {
     let counter = newData.filter(el=>el.checkbox == "checked").length
@@ -60,12 +61,23 @@ const load = () => {
     if(localStorage.length != 0) {
     console.log('storage start')
     console.log(localStorage.length)
-    newData = JSON.parse(localStorage.getItem('key'));
-    renderGrid(newData);
-    countEl(newData);
+    let tempNewData = JSON.parse(localStorage.getItem('key'));
+    console.log(tempNewData)
+    console.log(tempNewData.length)
+        if (tempNewData.length ==0) {
+            console.log('tempnewdata did not fulfiiled', tempNewData)
+            renderGrid();
+        }else {
+            console.log('fulfiiled temp')
+            newData = tempNewData;
+            renderGrid()
+        }
+    console.log(newData);
+    renderGrid();
+    countEl();
     } else {
     console.log('start without storage')
-    renderGrid(newData);
+    renderGrid();
     }
 }
 
