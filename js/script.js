@@ -19,18 +19,15 @@ const data = await getData();
 console.log(localStorage[storageKey] == undefined)
 
 if (localStorage[storageKey] == undefined) {
-    console.log('load api')
     newData = [...data]
     newData.forEach((el)=>el.checkbox='');
 } else {
-    console.log('load from storage')
     newData = JSON.parse(localStorage.getItem(storageKey));
 };
 
 console.log(newData)
 
 const save = () => localStorage.setItem(storageKey, JSON.stringify(newData));
-
 
 const createCard = (obj) => {
     const card = document.createElement('div');
@@ -46,7 +43,6 @@ const createCard = (obj) => {
     return card
 }
 
-
 const renderGrid = () => {
     grid.innerHTML='';
     for (let el of newData) {
@@ -55,14 +51,21 @@ const renderGrid = () => {
     
 }
 
-
 const countEl = () => {
     let counter = newData.filter(el=>el.checkbox == "checked").length
     numders.innerText = `numbs = ${counter}`
 }
 
-
 const filterByInput = () => {
+    console.log('load from api')
+    if (localStorage[storageKeyforBar] == undefined) {
+        input.value == '';
+    } else {
+        console.log('load from storage')
+        let str = JSON.parse(localStorage.getItem(storageKeyforBar));
+        input.value  = str.substr(str.lastIndexOf('=')+1, str.length);
+    };
+
     grid.innerHTML = '';
     console.log(newData)
     newData.filter((el)=>el.title.includes(input.value.toLowerCase().trim())).forEach((el)=>grid.append(createCard(el)));
@@ -99,7 +102,6 @@ input.addEventListener('input',()=> {
 
 grid.addEventListener('click', (e)=> {
     let elem = e.target;
-
     newData.forEach((el)=> {
         if (el.id == elem.parentElement.id && el.checkbox == '') {
             el.checkbox = 'checked';
