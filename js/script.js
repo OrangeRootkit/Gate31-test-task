@@ -1,23 +1,35 @@
-URL = 'https://jsonplaceholder.typicode.com/posts/?_start=0&_limit=7'
-
+const URL_API = 'https://jsonplaceholder.typicode.com/posts/?_start=0&_limit=7'
 const grid = document.querySelector('.grid');
 const input = document.querySelector('.input');
 const numders = document.querySelector('.numbers');
 const button = document.querySelector('.button');
+const storageKey = ',.?qh7fAi6!GHdYn';
+const storageKeyforBar = 'ZJy0ZRJ7';
+const adress = new URL(window.location.href);
+let newData = [];
 
 const getData = async () => {
-    const resp = await (fetch(URL))
+    const resp = await (fetch(URL_API))
     const data = await(resp.json());
     return data;
 };
 
 const data = await getData();
 
-let newData = [...data];
-for (let el of newData) {
-    el.checkbox = '';
-}
-console.log('new array', newData);
+console.log(localStorage[storageKey] == undefined)
+
+if (localStorage[storageKey] == undefined) {
+    console.log('load api')
+    newData = [...data]
+    newData.forEach((el)=>el.checkbox='');
+} else {
+    console.log('load from storage')
+    newData = JSON.parse(localStorage.getItem(storageKey));
+};
+
+console.log(newData)
+
+const save = () => localStorage.setItem(storageKey, JSON.stringify(newData));
 
 
 const createCard = (obj) => {
@@ -31,7 +43,6 @@ const createCard = (obj) => {
     checkbox.setAttribute("type", "checkbox");
     card.appendChild(checkbox);
     obj.checkbox == ''? checkbox.checked = false : (checkbox.checked = true, checkbox.parentElement.style.backgroundColor = '#719450', checkbox.parentElement.style.color = '#FFFFFF');
-    console.log(card)
     return card
 }
 
@@ -41,50 +52,50 @@ const renderGrid = () => {
     for (let el of newData) {
         grid.append(createCard(el));
     }
+    
 }
 
-console.log(renderGrid());
 
 const countEl = () => {
     let counter = newData.filter(el=>el.checkbox == "checked").length
     numders.innerText = `numbs = ${counter}`
-    return counter;
 }
 
-const save = () => {
-    localStorage.clear();
-    localStorage.setItem('key', JSON.stringify(newData));
-}
 
-const load = () => {
-    
-    if(localStorage.length != 0) {
-    console.log('storage start')
-    console.log(localStorage.length)
-    let tempNewData = JSON.parse(localStorage.getItem('key'));
-    console.log(tempNewData)
-    console.log(tempNewData.length)
-        if (tempNewData.length ==0) {
-            console.log('tempnewdata did not fulfiiled', tempNewData)
-            renderGrid();
-        }else {
-            console.log('fulfiiled temp')
-            newData = tempNewData;
-            renderGrid()
-        }
-    console.log(newData);
-    renderGrid();
-    countEl();
+const filterByInput = () => {
+    grid.innerHTML = '';
+    console.log(newData)
+    newData.filter((el)=>el.title.includes(input.value.toLowerCase().trim())).forEach((el)=>grid.append(createCard(el)));
+    console.log('done')
+    countEl()
+    // save()
+}
+filterByInput()
+
+
+const urlState = () => {
+    if (input.value !='') {
+        adress.searchParams.set('filter', input.value);
+        history.replaceState('', '', adress);
+        localStorage.removeItem(storageKeyforBar);
+        localStorage.setItem(storageKeyforBar, JSON.stringify(adress));
     } else {
-    console.log('start without storage')
-    renderGrid();
+        adress.searchParams.delete('filter');
+        history.pushState('', '', adress);
+        localStorage.removeItem(storageKeyforBar);
     }
 }
 
-load()
+button.addEventListener('click', filterByInput);
 
-save();
-console.log('local', localStorage);
+input.addEventListener('input',()=> {
+    urlState()
+    console.log(input.value)
+    if (input.value == ''){
+        renderGrid();
+    } 
+});
+
 
 grid.addEventListener('click', (e)=> {
     let elem = e.target;
@@ -92,36 +103,12 @@ grid.addEventListener('click', (e)=> {
     newData.forEach((el)=> {
         if (el.id == elem.parentElement.id && el.checkbox == '') {
             el.checkbox = 'checked';
-            renderGrid(newData);
+            renderGrid();
         } else if (el.id == elem.parentElement.id && el.checkbox == 'checked') {
             el.checkbox = '';
-            renderGrid(newData);
+            renderGrid();
         };
     });
-
-    countEl(newData)
     save()
+    countEl()
 });
-
-button.addEventListener('click', (e)=> {
-    grid.innerHTML = '';
-    console.log(newData[0].title);
-    console.log(input.value)
-    newData.filter((el)=>el.title.includes(input.value.toLowerCase().trim())).forEach((el)=>grid.append(createCard(el)))
-    countEl(newData)
-    save()
-    console.log(history)
-    console.log(history.location)
-    console.log(window.location)
-});
-
-input.addEventListener('input',()=> {
-    console.log(input.value)
-    if (input.value == ''){
-        load();
-    }
-    
-} )
-
-console.log('end')
-
