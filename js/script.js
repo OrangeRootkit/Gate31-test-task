@@ -16,7 +16,6 @@ const getData = async () => {
 
 const data = await getData();
 
-console.log(localStorage[storageKey] == undefined)
 
 if (localStorage[storageKey] == undefined) {
     newData = [...data]
@@ -25,7 +24,6 @@ if (localStorage[storageKey] == undefined) {
     newData = JSON.parse(localStorage.getItem(storageKey));
 };
 
-console.log(newData)
 
 const save = () => localStorage.setItem(storageKey, JSON.stringify(newData));
 
@@ -57,23 +55,18 @@ const countEl = () => {
 }
 
 const filterByInput = () => {
-    console.log('load from api')
     if (localStorage[storageKeyforBar] == undefined) {
         input.value == '';
     } else {
-        console.log('load from storage')
         let str = JSON.parse(localStorage.getItem(storageKeyforBar));
         input.value  = str.substr(str.lastIndexOf('=')+1, str.length);
     };
 
     grid.innerHTML = '';
-    console.log(newData)
     newData.filter((el)=>el.title.includes(input.value.toLowerCase().trim())).forEach((el)=>grid.append(createCard(el)));
-    console.log('done')
     countEl()
-    // save()
 }
-filterByInput()
+filterByInput();
 
 
 const urlState = () => {
@@ -88,12 +81,12 @@ const urlState = () => {
         localStorage.removeItem(storageKeyforBar);
     }
 }
+urlState();
 
 button.addEventListener('click', filterByInput);
 
 input.addEventListener('input',()=> {
     urlState()
-    console.log(input.value)
     if (input.value == ''){
         renderGrid();
     } 
@@ -113,4 +106,5 @@ grid.addEventListener('click', (e)=> {
     });
     save()
     countEl()
+    filterByInput();
 });
